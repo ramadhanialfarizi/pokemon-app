@@ -1,3 +1,4 @@
+import 'package:api_learning/pages/fail_load_error/file_empty.dart';
 import 'package:api_learning/pages/widget/favorite_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,12 @@ class _FavoritePageState extends State<FavoritePage> {
               stream: _usersStream,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasError) {
+                  return FileEmptyScreen();
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                } else {
                   return ListView(
                     shrinkWrap: true,
                     children:
@@ -47,18 +53,26 @@ class _FavoritePageState extends State<FavoritePage> {
                               Text(spawnTime),
                             ],
                           ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  size: 20.0,
+                                  color: Colors.brown[900],
+                                ),
+                                onPressed: () {
+                                  // delete Favorite From cloud firestore
+                                },
+                              ),
+                            ],
+                          ),
                           // title: Text(Contact().contacts[index].name),
                           // subtitle: Text(Contact().contacts[index].phoneNumber),
                         ),
                       );
                     }).toList(),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
-                } else {
-                  return Center(
-                    child: Text('Something went wrong! data not loaded'),
                   );
                 }
               },
@@ -68,40 +82,4 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
     );
   }
-
-  // Widget card() {
-  //   return Card(
-  //     child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Expanded(
-  //           flex: 1,
-  //           child: Image.network(
-  //               'http://www.serebii.net/pokemongo/pokemon/001.png'),
-  //         ),
-  //         Expanded(
-  //           flex: 2,
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: [
-  //                 Text(
-  //                   'Pokemon Name',
-  //                   style: TextStyle(fontSize: 16.0),
-  //                 ),
-  //                 SizedBox(
-  //                   height: 10,
-  //                 ),
-  //                 Text('Pokemon'),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
 }
