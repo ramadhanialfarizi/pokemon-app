@@ -66,13 +66,20 @@ class _FavoritePageState extends State<FavoritePage> {
   // }
 
   Widget card() {
-    return ListTile(
-      leading:
-          Image.network('http://www.serebii.net/pokemongo/pokemon/001.png'),
-      title: Text('Pokemon Name'),
-      subtitle: Text('Weakness'),
-      // title: Text(Contact().contacts[index].name),
-      // subtitle: Text(Contact().contacts[index].phoneNumber),
+    return Card(
+      child: ListTile(
+        leading:
+            Image.network('http://www.serebii.net/pokemongo/pokemon/001.png'),
+        title: Text('Pokemon Name'),
+        subtitle: Row(
+          children: [
+            Text('Spawn time : '),
+            Text('20:00'),
+          ],
+        ),
+        // title: Text(Contact().contacts[index].name),
+        // subtitle: Text(Contact().contacts[index].phoneNumber),
+      ),
     );
   }
 }
