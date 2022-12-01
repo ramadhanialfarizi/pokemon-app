@@ -58,10 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                             );
                             await FirebaseAuth.instance
                                 .signInWithCredential(credential);
-                            //Navigator.of(context).pushReplacementNamed('/home');
+                            Navigator.of(context).pushReplacementNamed('/home');
                           }
                         }
-                        Navigator.of(context).pushReplacementNamed('/home');
+                        //Navigator.of(context).pushReplacementNamed('/home');
                       },
                       icon: const Icon(Icons.account_circle_outlined, size: 30),
                       label: const Text(
