@@ -13,8 +13,10 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _usersStream =
-        FirebaseFirestore.instance.collection('users').snapshots();
+    final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+        .collection('users')
+        .orderBy('name')
+        .snapshots();
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference users = firestore.collection('users');
     return Scaffold(
@@ -31,15 +33,19 @@ class _FavoritePageState extends State<FavoritePage> {
                   return FileEmptyScreen();
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
+                  return Center(
+                    child: CircularProgressIndicator(color: Colors.green),
+                  );
                 } else {
                   return ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children:
                         snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data =
                           document.data()! as Map<String, dynamic>;
 
+                      //String? id = data['id'];
                       String image = data['image'];
                       String name = data['name'];
                       String spawnTime = data['spawnTime'];
@@ -64,6 +70,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                 ),
                                 onPressed: () {
                                   // delete Favorite From cloud firestore
+                                  users.doc(document.id).delete();
                                 },
                               ),
                             ],
