@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Image.asset(
             'assets/images/splashscreen.png',
             scale: 4,
+            // 4
           ),
         ),
       ),

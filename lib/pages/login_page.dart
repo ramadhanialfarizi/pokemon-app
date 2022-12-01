@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +16,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late SharedPreferences loginUser;
+  late bool newUser;
+
+  void checkLogin() async {
+    loginUser = await SharedPreferences.getInstance();
+    newUser = loginUser.getBool('login') ?? true;
+
+    if (newUser == false) {
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                             );
                             await FirebaseAuth.instance
                                 .signInWithCredential(credential);
+                            loginUser.setBool('login', false);
+                            // loginUser.setString(
+                            //     'username', account.authentication);
                             Navigator.of(context).pushReplacementNamed('/home');
                           }
                         }

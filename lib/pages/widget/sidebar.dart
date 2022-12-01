@@ -1,9 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SideBarWidget extends StatelessWidget {
+class SideBarWidget extends StatefulWidget {
   const SideBarWidget({super.key});
+
+  @override
+  State<SideBarWidget> createState() => _SideBarWidgetState();
+}
+
+class _SideBarWidgetState extends State<SideBarWidget> {
+  late SharedPreferences loginUser;
+
+  void logout() async {
+    loginUser = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    logout();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +75,7 @@ class SideBarWidget extends StatelessWidget {
           //Navigator.of(context).pushNamed('/cover');
           GoogleSignIn().signOut();
           FirebaseAuth.instance.signOut();
+          loginUser.setBool('login', true);
           Navigator.of(context).pushReplacementNamed('/login');
         },
         style: ButtonStyle(
