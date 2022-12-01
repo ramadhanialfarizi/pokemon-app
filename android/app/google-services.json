@@ -29,6 +29,13 @@
             {
               "client_id": "266756369057-ng2mhve73a8br10hi5q9sn0hu95675of.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "266756369057-ph3n2caqgukodo8t9acbnk5shgehe16p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.apiLearning"
+              }
             }
           ]
         }

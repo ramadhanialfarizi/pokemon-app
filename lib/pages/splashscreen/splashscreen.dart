@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   splashScreenStart() async {
     var duration = const Duration(seconds: 3);
     return Timer(duration, () {
-      Navigator.of(context).pushReplacementNamed('/home');
+      Navigator.of(context).pushReplacementNamed('/login');
       //Navigator.of(context).pushReplacementNamed('/wrong_data');
     });
   }
@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Image.asset(
             'assets/images/splashscreen.png',
             scale: 4,
+            // 4
           ),
         ),
       ),

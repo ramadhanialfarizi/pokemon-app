@@ -2,6 +2,7 @@ import 'package:api_learning/controller/provider.dart';
 import 'package:api_learning/pages/detail_page.dart';
 import 'package:api_learning/pages/favorite_page.dart';
 import 'package:api_learning/pages/home_page.dart';
+import 'package:api_learning/pages/login_page.dart';
 import 'package:api_learning/pages/splashscreen/splashscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,13 +48,15 @@ class MyApp extends StatelessWidget {
           case '/':
             return CupertinoPageRoute(
                 builder: (_) => const SplashScreen(), settings: settings);
+          case '/login':
+            return CupertinoPageRoute(
+                builder: (_) => const LoginPage(), settings: settings);
           case '/home':
             return CupertinoPageRoute(
                 builder: (_) => const HomePage(), settings: settings);
           case '/detail':
             return CupertinoPageRoute(
                 builder: (_) => const DetailPage(), settings: settings);
-          // testing
           case '/favorite':
             return CupertinoPageRoute(
                 builder: (_) => const FavoritePage(), settings: settings);

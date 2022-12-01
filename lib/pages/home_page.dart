@@ -3,6 +3,7 @@ import 'package:api_learning/model/pokemon_model.dart';
 import 'package:api_learning/pages/fail_load_error/fail_load_error.dart';
 import 'package:api_learning/pages/favorite_page.dart';
 import 'package:api_learning/pages/widget/pokemon_list.dart';
+import 'package:api_learning/pages/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,9 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        drawer: SideBarWidget(),
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
