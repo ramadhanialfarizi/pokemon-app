@@ -1,6 +1,7 @@
 import 'package:api_learning/pages/fail_load_error/file_empty.dart';
 import 'package:api_learning/pages/widget/favorite_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -11,14 +12,22 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+  final currentUsers = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> usersStream = FirebaseFirestore.instance
-        .collection('users')
+        .collection('favorite_list')
+        .doc(currentUsers.currentUser!.uid)
+        .collection('userData')
         .orderBy('name')
+        // .where('uid', isEqualTo: currentUsers.currentUser!.uid)
         .snapshots();
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference users = firestore.collection('users');
+    CollectionReference favorite = firestore.collection('favorite_list');
+    DocumentReference users = favorite.doc(currentUsers.currentUser!.uid);
+    CollectionReference userData = users.collection('userData');
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -70,7 +79,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                 ),
                                 onPressed: () {
                                   // delete Favorite From cloud firestore
-                                  users.doc(document.id).delete();
+                                  userData.doc(document.id).delete();
                                 },
                               ),
                             ],

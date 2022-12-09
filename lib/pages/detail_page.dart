@@ -1,5 +1,6 @@
 import 'package:api_learning/model/pokemon_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +12,15 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  final currentUsers = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // pointer ke collection user
-    CollectionReference users = firestore.collection('users');
+    CollectionReference users = firestore.collection('favorite_list');
+    DocumentReference userData = users.doc(currentUsers.currentUser!.uid);
+    CollectionReference collection = userData.collection('userData');
     final parameter = ModalRoute.of(context)!.settings.arguments as PokemonData;
     String image = parameter.image as String;
     String name = parameter.name as String;
@@ -225,7 +230,10 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           onPressed: () {
                             // add data to firebase firestore
-                            users.add({
+                            // use add if using ColectionReference
+                            // use set if using DocumentReference
+                            collection.add({
+                              'user_email': currentUsers.currentUser!.email,
                               'name': name,
                               'image': image,
                               'height': height,
